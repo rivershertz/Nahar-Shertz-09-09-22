@@ -1,17 +1,35 @@
 import { useEffect, useState } from "react";
 import { api } from "./api";
-import CurrentWeather from "./CurrentWeather";
-
-const autoData = require("./autoData.json");
-const searchData = require("./searchData.json");
-const forecastData = require('./forecast.json')
+import { FiHeart } from "react-icons/fi";
+import Card from "./Card";
+import { useFavorites, useFavoritesUpdate } from "./contexts/FavoritesContext";
 
 function Weather() {
   const [location, setLocation] = useState("");
   const [autocompleteResponse, setAutocompleteResponse] = useState([]);
+  const [farecastData, setForecastData] = useState([])
   const [weatherText, setWeatherText] = useState("");
   const [weatherMetric, setWeatherMetric] = useState("");
-  const [weatherImperial, setWeatherImperial] = useState("");
+  const [isFavorite, setIsFavorite] = useState(false);
+  const favorites = useFavorites();
+  const updateFavorites = useFavoritesUpdate();
+
+  useEffect(() => {
+    api.getForecast(215854)
+    .then((res) => {
+      setForecastData(res.DailyForecasts)
+    })
+    .catch(err => console.log(err))
+
+    api.getCurrentWeather(215854).then((res) => {
+      setWeatherText(res[0].WeatherText);
+      setWeatherMetric(res[0].Temperature.Metric.Value);
+      setLocation('Tel Aviv')
+    })
+    .catch(err => console.log(err))
+
+    
+  }, []);
 
   const onSearchChange = (e) => {
     setLocation(e.target.value);
@@ -26,19 +44,58 @@ function Weather() {
   };
 
   const onSearch = (searchTerm, locationKey) => {
-    console.log(locationKey);
     setLocation(searchTerm);
-    setWeatherText(searchData[0].WeatherText);
-    setWeatherMetric(searchData[0].Temperature.Metric.Value);
-    // api.getCurrentWeather(locationKey).then((res) => {
-    //   console.log(res);
-    //
-    // });
+
+    api.getCurrentWeather(locationKey)
+    .then((res) => {
+      setWeatherText(res[0].WeatherText);
+      setWeatherMetric(res[0].Temperature.Metric.Value);
+    })
+    .catch(err => console.log(err))
+
+    api.getForecast(locationKey)
+    .then((res) => {
+      setForecastData(res.DailyForecasts)
+    })
+    .catch(err => console.log(err))
   };
+
+  const AddFavortieButton = ({ icon }, isFavorite) => (
+    <button
+      className={`absolute top-4 right-6 rounded-full hover:opacity-75`}
+      onClick={() => {
+        onAddFavortieClick(location, weatherText, weatherMetric);
+      }}
+    >
+      {icon}
+    </button>
+  );
+
+  const onAddFavortieClick = (location, weatherText, weatherMetric) => {
+    if (!location) return;
+    if (isFavorite) {
+      updateFavorites(
+        favorites.filter((favorite) => favorite.name !== location)
+      );
+      setIsFavorite(false);
+    } else {
+      setIsFavorite(true);
+      const newFavorite = {
+        ID: Math.round(Math.random() * 1000),
+        name: location,
+        currentWeather: { text: weatherText, temperature: weatherMetric },
+      };
+      updateFavorites([newFavorite, ...favorites]);
+    }
+  };
+
+  useEffect(() => {
+    setIsFavorite(favorites.some((favorite) => favorite.name === location));
+  }, [location, favorites]);
 
   return (
     <div className="w-full">
-      <div className="w-3/5 mx-auto mt-14">
+      <div className="sm:w-3/4 md:w-3/5 mx-auto mt-14">
         <h1 className="text-6xl mx-auto text-center">
           So...
           <br /> How's the Weather?
@@ -49,7 +106,7 @@ function Weather() {
         </p>
       </div>
 
-      <div className="h-8 border-box w-3/5 mx-auto mt-10 flex flex-wrap">
+      <div className="h-8 border-box sm:w-3/4 md:w-3/5 mx-auto mt-10 flex flex-wrap">
         <input
           type="text"
           className="w-4/5 mx-auto shadow-lg"
@@ -58,11 +115,11 @@ function Weather() {
           value={location}
         ></input>
         <div
-          className={`bg-white flex-column w-4/5 mx-auto ${
+          className={`bg-white flex-column w-4/5 mx-auto z-10 ${
             location ? "" : "hidden"
           }`}
         >
-          {autoData
+          {autocompleteResponse
             .filter((suggestion) => {
               const searchTerm = location.toLowerCase();
               const suggestionName = suggestion.LocalizedName.toLowerCase();
@@ -72,9 +129,10 @@ function Weather() {
                 suggestionName !== searchTerm
               );
             })
-            .map((suggestion) => (
+            .map((suggestion, index) => (
               <div
                 className="text-slate-500 hover:bg-slate-200 cursor-pointer"
+                key={`${index}-${suggestion.LocalizedName}`}
                 onClick={() =>
                   onSearch(suggestion.LocalizedName, suggestion.Key)
                 }
@@ -84,19 +142,24 @@ function Weather() {
             ))}
         </div>
       </div>
-      <div className="mt-10 mx-auto w-3/5 bg-white h-96 shadow-lg p-4">
-        <button></button>
-        <h2 className="text-5xl mx-auto w-1/2 text-center">{weatherText}</h2>
-        <p className="text-3xl w-1/2 mx-auto mt-10 text-center">
+      <div className="mt-10 mx-auto sm:w-3/4 md:w-3/5 bg-white rounded-md drop-shadow-lg p-4 relative">
+        <AddFavortieButton
+          icon={<FiHeart size="28" fill={isFavorite ? "red" : "white"} />}
+          isFavorite={isFavorite}
+        />
+        <h2 className="text-5xl sm:w-full md:w-1/2 mx-auto text-center">{location}</h2>
+        <h3 className="text-4xl mx-auto mt-5 w-1/3 text-center">{weatherText}</h3>
+        <p className="text-3xl w-1/3 mx-auto mt-8 text-center">
           {weatherMetric}
+          <span>&#176;</span>
         </p>
-        <div className="w-full flex space-x-10 mt-6">
-          {forecastData.DailyForecasts.map((day) => (
-            <div className="w-1/5 border-box border-2 border-blue-500">
-              <p></p>
-              <h3>{day.Day.IconPhrase}</h3>
-              <p>{day.Temperature.Minimum.Value}</p>
-            </div>
+        <div className="w-full grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-5 mt-6">
+          {farecastData.map((day, index) => (
+            <Card
+              key={`${index}-${day}`}
+              weatherText={day.Day.IconPhrase}
+              temperature={day.Temperature.Maximum.Value}
+            />
           ))}
         </div>
       </div>

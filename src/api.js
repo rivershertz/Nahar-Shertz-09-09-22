@@ -22,6 +22,12 @@ class Api {
       `${this._baseUrl}/currentconditions/v1/${locationKey}?apikey=${this._key}`
     );
   }
+
+  getForecast(locationKey) {
+    return this._request(
+      `${this._baseUrl}/forecasts/v1/daily/5day/${locationKey}?apikey=${this._key}`
+    )
+  }
 }
 
 export const api = new Api({
