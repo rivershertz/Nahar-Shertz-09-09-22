@@ -31,6 +31,6 @@ class Api {
 }
 
 export const api = new Api({
-  baseUrl: "http://dataservice.accuweather.com",
+  baseUrl: "https://dataservice.accuweather.com",
   key: "m2tzSACpN7AGgtBHc4OOJmjD2xfvOEMI",
 });
