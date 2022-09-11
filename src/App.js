@@ -1,6 +1,6 @@
 import { Routes, Route, Link } from "react-router-dom";
 import { useState } from 'react';
-import Weather from "./Weather";
+import Main from "./Main";
 import Favorites from "./Favorites";
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
       </header>
 
       <Routes>
-        <Route path="/" element={<Weather />} />
+        <Route path="/" element={<Main />} />
         <Route path="/favorites" element={<Favorites />} />
       </Routes>
     </div>
