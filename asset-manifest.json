@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/Nahar-Shertz-09-09-22/static/css/main.4122f61c.css",
-    "main.js": "/Nahar-Shertz-09-09-22/static/js/main.8c01f267.js",
+    "main.js": "/Nahar-Shertz-09-09-22/static/js/main.db2bdf87.js",
     "index.html": "/Nahar-Shertz-09-09-22/index.html",
     "main.4122f61c.css.map": "/Nahar-Shertz-09-09-22/static/css/main.4122f61c.css.map",
-    "main.8c01f267.js.map": "/Nahar-Shertz-09-09-22/static/js/main.8c01f267.js.map"
+    "main.db2bdf87.js.map": "/Nahar-Shertz-09-09-22/static/js/main.db2bdf87.js.map"
   },
   "entrypoints": [
     "static/css/main.4122f61c.css",
-    "static/js/main.8c01f267.js"
+    "static/js/main.db2bdf87.js"
   ]
 }
