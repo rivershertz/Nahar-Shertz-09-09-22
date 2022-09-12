@@ -1,6 +1,6 @@
 function Card({ location, weatherText, temperature }) {
   return (
-    <div className="h-36 shadow-lg bg-white relative flex flex-col justify-center rounded-md">
+    <div className="h-36 shadow-lg dark:shadow-xl bg-white dark:bg-slate-500 relative flex flex-col justify-center rounded-md">
       <p className="text-md absolute top-2 left-6">
         {temperature}
         <span>&#176;</span>

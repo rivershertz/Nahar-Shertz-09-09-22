@@ -7,7 +7,7 @@ import { useFavorites, useFavoritesUpdate } from "./contexts/FavoritesContext";
 function Weather() {
   const [location, setLocation] = useState("");
   const [autocompleteResponse, setAutocompleteResponse] = useState([]);
-  const [farecastData, setForecastData] = useState([])
+  const [farecastData, setForecastData] = useState([]);
   const [weatherText, setWeatherText] = useState("");
   const [weatherMetric, setWeatherMetric] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
@@ -28,7 +28,6 @@ function Weather() {
     })
     .catch(err => console.log(err))
 
-    
   }, []);
 
   const onSearchChange = (e) => {
@@ -40,6 +39,7 @@ function Weather() {
           setAutocompleteResponse(res);
         })
         .catch((err) => console.log(err));
+ 
     }
   };
 
@@ -60,7 +60,7 @@ function Weather() {
     .catch(err => console.log(err))
   };
 
-  const AddFavortieButton = ({ icon }, isFavorite) => (
+  const AddFavortieButton = ({ icon }) => (
     <button
       className={`absolute top-4 right-6 rounded-full hover:opacity-75`}
       onClick={() => {
@@ -79,6 +79,7 @@ function Weather() {
       );
       setIsFavorite(false);
     } else {
+      console.log('clicked')
       setIsFavorite(true);
       const newFavorite = {
         ID: Math.round(Math.random() * 1000),
@@ -109,15 +110,15 @@ function Weather() {
       <div className="h-8 border-box sm:w-3/4 md:w-3/5 mx-auto mt-10 flex flex-wrap">
         <input
           type="text"
-          className="w-4/5 mx-auto shadow-lg"
+          className="w-4/5 mx-auto shadow-lg dark:bg-slate-600 rounded-md"
           placeholder="Enter desired location"
           onChange={onSearchChange}
           value={location}
         ></input>
         <div
-          className={`bg-white flex-column w-4/5 mx-auto z-10 ${
-            location ? "" : "hidden"
-          }`}
+          className={`${
+            location === "" ? "hidden" : ""
+          } bg-white dark:bg-slate-500  flex-column w-4/5 mx-auto z-10`}
         >
           {autocompleteResponse
             .filter((suggestion) => {
@@ -131,7 +132,7 @@ function Weather() {
             })
             .map((suggestion, index) => (
               <div
-                className="text-slate-500 hover:bg-slate-200 cursor-pointer"
+                className={` text-slate-500 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-400 cursor-pointer`}
                 key={`${index}-${suggestion.LocalizedName}`}
                 onClick={() =>
                   onSearch(suggestion.LocalizedName, suggestion.Key)
@@ -142,13 +143,17 @@ function Weather() {
             ))}
         </div>
       </div>
-      <div className="mt-10 mx-auto sm:w-3/4 md:w-3/5 bg-white rounded-md drop-shadow-lg p-4 relative">
+      <div className="mt-10 mx-auto sm:w-3/4 md:w-3/5 bg-white dark:bg-slate-600 rounded-md drop-shadow-lg p-4 relative">
         <AddFavortieButton
-          icon={<FiHeart size="28" fill={isFavorite ? "red" : "white"} />}
+          icon={<FiHeart size="28" fill='red' fillOpacity={isFavorite ? '1' : '0'} />}
           isFavorite={isFavorite}
         />
-        <h2 className="text-5xl sm:w-full md:w-1/2 mx-auto text-center">{location}</h2>
-        <h3 className="text-4xl mx-auto mt-5 w-1/3 text-center">{weatherText}</h3>
+        <h2 className="text-5xl sm:w-full md:w-1/2 mx-auto text-center">
+          {location}
+        </h2>
+        <h3 className="text-4xl mx-auto mt-5 w-1/3 text-center">
+          {weatherText}
+        </h3>
         <p className="text-3xl w-1/3 mx-auto mt-8 text-center">
           {weatherMetric}
           <span>&#176;</span>
