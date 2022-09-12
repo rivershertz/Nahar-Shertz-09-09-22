@@ -1,13 +1,15 @@
 {
   "files": {
-    "main.css": "/Nahar-Shertz-09-09-22/static/css/main.4122f61c.css",
-    "main.js": "/Nahar-Shertz-09-09-22/static/js/main.8c01f267.js",
+    "main.css": "/Nahar-Shertz-09-09-22/static/css/main.5206f777.css",
+    "main.js": "/Nahar-Shertz-09-09-22/static/js/main.4db60903.js",
     "index.html": "/Nahar-Shertz-09-09-22/index.html",
-    "main.4122f61c.css.map": "/Nahar-Shertz-09-09-22/static/css/main.4122f61c.css.map",
-    "main.8c01f267.js.map": "/Nahar-Shertz-09-09-22/static/js/main.8c01f267.js.map"
+    "static/media/sun-icon.svg": "/Nahar-Shertz-09-09-22/static/media/sun-icon.b6fc33206a72e42e69cc1ea15d891d62.svg",
+    "static/media/moon-icon.svg": "/Nahar-Shertz-09-09-22/static/media/moon-icon.7295acf21af927a2a112cf8eefa43165.svg",
+    "main.5206f777.css.map": "/Nahar-Shertz-09-09-22/static/css/main.5206f777.css.map",
+    "main.4db60903.js.map": "/Nahar-Shertz-09-09-22/static/js/main.4db60903.js.map"
   },
   "entrypoints": [
-    "static/css/main.4122f61c.css",
-    "static/js/main.8c01f267.js"
+    "static/css/main.5206f777.css",
+    "static/js/main.4db60903.js"
   ]
 }
