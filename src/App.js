@@ -1,5 +1,5 @@
 import { Routes, Route, Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FavoritesProvider } from "./contexts/FavoritesContext";
 import Main from "./Main";
 import Favorites from "./Favorites";
@@ -7,16 +7,24 @@ import { ReactComponent as SunIcon } from "./images/sun-icon.svg";
 import { ReactComponent as MoonIcon } from "./images/moon-icon.svg";
 
 function App() {
-  const [darkTheme, setDarkTheme] = useState(false);
+  const initialDarkTheme = JSON.parse(localStorage.getItem("darkTheme"));
+  const [darkTheme, setDarkTheme] = useState(initialDarkTheme);
 
   const toggleTheme = () => {
     setDarkTheme(!darkTheme);
   };
 
+  useEffect(() => {
+    localStorage.setItem('darkTheme', darkTheme)
+  },[darkTheme])
+
+ 
+
   return (
     <div
-      className={`h-screen font-josefin ${darkTheme ? "dark" : ""} ${
-        darkTheme ? "bg-slate-800" : "bg-slate-100"} ${darkTheme ? 'text-white' : 'text-black'}`}
+      className={`h-screen font-josefin border-box ${darkTheme ? "dark" : ""} ${
+        darkTheme ? "bg-slate-800" : "bg-slate-100"
+      } ${darkTheme ? "text-white" : "text-black"}`}
     >
       <header className="h-12 w-full bg-slate-300 dark:bg-slate-600">
         <button
@@ -31,10 +39,16 @@ function App() {
         </button>
         <nav className="h-full box-border p-2 flex justify-center">
           <ul className="sm:w-1/2 md:w-2/5 h-full p-2 flex items-center box-border">
-            <Link className="mr-auto hover:text-slate-500 dark:hover:text-slate-300" to="/">
+            <Link
+              className="mr-auto hover:text-slate-500 dark:hover:text-slate-300"
+              to="/"
+            >
               Home
             </Link>
-            <Link className="hover:text-slate-500 dark:hover:text-slate-300" to="/favorites">
+            <Link
+              className="hover:text-slate-500 dark:hover:text-slate-300"
+              to="/favorites"
+            >
               Favorites
             </Link>
           </ul>
