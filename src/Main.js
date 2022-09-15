@@ -16,6 +16,7 @@ function Weather() {
   const favorites = useFavorites();
   const updateFavorites = useFavoritesUpdate();
 
+  // INITIAL DATA
   useEffect(() => {
     const telAvivKey = 215854;
     api
@@ -37,6 +38,7 @@ function Weather() {
     updateFavorites(localFavorites);
   }, []);
 
+  // HANDLERS
   const onSearchChange = (e) => {
     setLocation(e.target.value);
     if (location) {
@@ -68,17 +70,6 @@ function Weather() {
       .catch((err) => console.log(err));
   };
 
-  const AddFavortieButton = ({ icon }) => (
-    <button
-      className={`absolute top-4 right-6 rounded-full hover:opacity-75`}
-      onClick={() => {
-        onAddFavortieClick(location, weatherText, weatherMetric);
-      }}
-    >
-      {icon}
-    </button>
-  );
-
   const onAddFavortieClick = (location, weatherText, weatherMetric) => {
     if (!location) return;
     if (isFavorite) {
@@ -97,6 +88,19 @@ function Weather() {
     }
   };
 
+  // MANAGE FAVORITE BUTTON
+  const AddFavortieButton = ({ icon }) => (
+    <button
+      className={`absolute top-4 right-6 rounded-full hover:opacity-75`}
+      onClick={() => {
+        onAddFavortieClick(location, weatherText, weatherMetric);
+      }}
+    >
+      {icon}
+    </button>
+  );
+
+// MANAGE ISFAVORITE STATE AND FAVORITES LOCAL STORAGE
   useEffect(() => {
     setIsFavorite(favorites.some((favorite) => favorite.name === location));
     localStorage.setItem("favorites", JSON.stringify(favorites));

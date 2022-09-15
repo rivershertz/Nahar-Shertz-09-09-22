@@ -15,10 +15,8 @@ function App() {
   };
 
   useEffect(() => {
-    localStorage.setItem('darkTheme', darkTheme)
-  },[darkTheme])
-
- 
+    localStorage.setItem("darkTheme", darkTheme);
+  }, [darkTheme]);
 
   return (
     <div
