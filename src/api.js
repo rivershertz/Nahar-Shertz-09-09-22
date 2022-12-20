@@ -11,7 +11,7 @@ class Api {
   }
 
   getAutocomlete(query) {
-    const formattedQuery = query.replace(" ", "%20");
+    const formattedQuery = query.replace(' ', '%20');
     return this._request(
       `${this._baseUrl}/locations/v1/cities/autocomplete?apikey=${this._key}&q=${formattedQuery}`
     );
@@ -26,11 +26,13 @@ class Api {
   getForecast(locationKey) {
     return this._request(
       `${this._baseUrl}/forecasts/v1/daily/5day/${locationKey}?apikey=${this._key}`
-    )
+    );
   }
 }
 
 export const api = new Api({
-  baseUrl: "https://dataservice.accuweather.com",
-  key: "m2tzSACpN7AGgtBHc4OOJmjD2xfvOEMI",
+  baseUrl: 'https://dataservice.accuweather.com',
+  key: 'm2tzSACpN7AGgtBHc4OOJmjD2xfvOEMI',
 });
+
+///
